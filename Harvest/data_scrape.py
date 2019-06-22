@@ -6,9 +6,16 @@ import numpy as np
 from bs4 import BeautifulSoup as BS
 
 ''' Season start and end inputs. Will harvest between these dates '''
-# TODO: add dictionary for season start/end for each year
-season_start = pd.to_datetime('10/16/2018')
-season_end = pd.to_datetime('4/10/2019')
+
+harvest_season_start = 2017
+
+seasons = {
+    2017: ['10/17/2017', '4/11/2018'],
+    2018: ['10/16/2018', '4/10/2019'],
+}
+
+season_start = pd.to_datetime(seasons[harvest_season_start][0])
+season_end = pd.to_datetime(seasons[harvest_season_start][1])
 
 season = pd.date_range(start=season_start, end=season_end, freq='D')
 
