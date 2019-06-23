@@ -1,15 +1,17 @@
 import os
 from urllib.request import urlopen
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from bs4 import BeautifulSoup as BS
 
 ''' Season start and end inputs. Will harvest between these dates '''
 
-harvest_season_start = 2017
+harvest_season_start = 2015
 
 seasons = {
+    2015: ['10/27/2015', '4/13/2016'],
+    2016: ['10/25/2016', '4/12/2017'],
     2017: ['10/17/2017', '4/11/2018'],
     2018: ['10/16/2018', '4/10/2019'],
 }
@@ -143,8 +145,9 @@ def data_scrape_main():
             gameDF = pd.DataFrame([game_stats], columns=columns)
             statsDF = statsDF.append(gameDF)
 
-    statsDF['Winner'] = np.where(statsDF['PTS_Home'] > statsDF['PTS_Away'], 'H', 'A')
+    statsDF['Winner'] = np.where(statsDF['PTS_Home'] > statsDF['PTS_Away'], 1, 0)
     statsDF.to_csv(os.path.join(RAW_PATH, f'games_{season_start.year}_{season_end.year}.csv'), index=False)
+
 
 if __name__ == '__main__':
     data_scrape_main()
